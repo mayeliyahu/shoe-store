@@ -12,7 +12,7 @@ exports.getCart = async (req, res) => {
 exports.addToCart = async (req, res) => {
     const { userId, shoeId, quantity } = req.body;
     try {
-        const cart = await Cart.findOne({ user: userId });
+        let cart = await Cart.findOne({ user: userId });
         if (cart) {
             const itemIndex = cart.items.findIndex(item => item.shoe.toString() === shoeId);
             if (itemIndex > -1) {
@@ -22,11 +22,11 @@ exports.addToCart = async (req, res) => {
             }
             await cart.save();
         } else {
-            const newCart = new Cart({
+            cart = new Cart({
                 user: userId,
                 items: [{ shoe: shoeId, quantity: quantity }]
             });
-            await newCart.save();
+            await cart.save();
         }
         res.status(201).json(cart);
     } catch (err) {
