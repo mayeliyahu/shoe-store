@@ -24,6 +24,10 @@ const shoeSchema = new mongoose.Schema({
     inStock: {
         type: Boolean,
         default: true
+    },
+    gender: {
+        type: String, //"Men", "Women", or "Unisex"
+        required: true
     }
 });
 
