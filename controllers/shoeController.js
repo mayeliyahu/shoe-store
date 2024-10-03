@@ -10,9 +10,9 @@ exports.getShoes = async (req, res) => {
 };
 
 exports.createShoe = async (req, res) => {
-    const { name, brand, availableSizes, inStockSizes, price, inStock } = req.body;
+    const { name, brand, availableSizes, inStockSizes, price, inStock, gender } = req.body;
     try {
-        const newShoe = new Shoe({ name, brand, availableSizes, inStockSizes, price, inStock });
+        const newShoe = new Shoe({ name, brand, availableSizes, inStockSizes, price, inStock ,gender });
         const shoe = await newShoe.save();
         res.status(201).json(shoe);
     } catch (err) {
