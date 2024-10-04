@@ -1,0 +1,303 @@
+:root {
+  --accent-color:             #717171;
+  --white-color:              #fff;
+  --black-color:              #272727;
+  --gray-color:               #F3F3F3;
+  --gray-color-200:           #E3E3E3;
+  --primary-color:            #3E59A8;
+}
+:root {
+    --body-font           : "Nunito", sans-serif;
+    --heading-font        : "Nunito", sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: 18px;
+  font-weight: 300;
+  margin: 0;
+
+.logo {
+    width: 280px; 
+    margin-top: -10px;
+    height: auto; 
+  }
+  
+svg {
+    width: 22px;
+    height: 22px;
+}  
+}
+p {
+  color: var(--black-color);
+  letter-spacing: 0.01rem;
+  line-height: normal;
+}
+a {
+  color: var(--black-color);
+  text-decoration: none;
+  transition: 0.3s color ease-out;
+}
+a.light {
+  color: var(--light-color);
+}
+a:hover {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+hr{
+  margin: 1.25rem 0;
+  color: var(--gray-color-200);
+  opacity: 1;
+}
+
+.bg-gray {
+  background: var(--gray-color);
+}
+.bg-dark {
+  background: var(--black-color);
+}
+.bg-light {
+  background: var(--light-color);
+}
+.bg-light-gray {
+  background: var(--white-color);
+}
+
+.navbar-nav .nav-item a.nav-link {
+  font-size: 0.7619em;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  color: var(--black-color);
+}
+.navbar-nav .nav-item a.nav-link.active, 
+.navbar-nav .nav-item a.nav-link:focus, 
+.navbar-nav .nav-item a.nav-link:hover {
+  color: var(--primary-color);
+  
+}
+.modal-header, .modal-body {
+  font-family: var(--body-font);
+  font-size: 0.7619em;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  color: var(--black-color);
+}
+
+.modal-header .modal-title {
+  color: var(--primary-color); 
+}
+
+.modal-footer .btn-primary {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+}
+
+.btn-primary {
+background-color: var(--primary-color);
+border-color: var(--primary-color);
+}
+
+#loginModal .nav-link.active {
+background-color: var(--white-color);
+color: var(--primary-color);
+}
+
+#loginModal .nav-link {
+color: var(--primary-color);
+}
+
+.our-brands {
+  font-family: var(--body-font);
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--white-color);
+}
+
+.our-brands h1{
+  color: var(--primary-color);
+}
+
+.brands-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  font-family: var(--body-font);
+}
+
+.brand-image {
+  width: 220px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s;
+  padding: 20px;
+}
+
+.brand-image:hover {
+  transform: scale(1.05);
+}
+
+.category{
+  align-content: center;
+}
+
+.category-image{
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.3s;
+  padding: 16px;
+}
+
+.category-image:hover {
+  transform: scale(1.05);
+}
+
+.fall-time{
+  text-align: center;
+  background-color: var(--primary-color);
+  padding: 100px;
+}
+
+.fall-time p{
+  font-size: 3em;
+  font-family: var(--body-font);
+  color: var(--white-color);
+  margin-bottom: 0%;
+}
+
+.new-items{
+  font-family: var(--body-font);
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--white-color);
+}
+.cart-dropdown .dropdown-menu {
+  width: 300px; 
+}
+
+.cart-dropdown .dropdown-menu h4,
+.cart-dropdown .dropdown-menu h5,
+.cart-dropdown .dropdown-menu .list-group-item {
+  color: var(--primary-color);
+}
+
+.cart-dropdown .dropdown-menu .text-primary {
+  color: var(--primary-color) !important;
+}
+.wishlist-dropdown .dropdown-menu .text-primary {
+  color: var(--primary-color) !important;
+}
+
+#empty-wishlist-message {
+  color: var(--primary-color) !important;
+}
+
+
+
+.cart-dropdown .dropdown-toggle::after {
+  display: none; 
+}
+.wishlist-dropdown .dropdown-toggle::after {
+  display: none; 
+}
+.search-dropdown .dropdown-toggle::after {
+  display: none; 
+}
+
+.wishlist-dropdown a {
+  margin-left: 10px;
+}
+#wishlist-dropdown {
+  width: 300px;
+}
+
+.badge {
+  background-color: var(--primary-color); 
+  color: var(--white-color); 
+  padding: 0.25rem 0.75rem; 
+  border-radius: 1rem; 
+  font-size: 1rem; 
+  font-family: var(--heading-font); 
+}
+
+.cart-count-badge .wishlist-count-badge {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+}
+
+.search-box {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  width: 150px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-active .search-box {
+  display: block;
+}
+
+.search-active .search-icon {
+  display: none;
+}
+.search-icon {
+  margin-right: 20px;
+}
+
+
+#contact-us .display-4 {
+  font-family: var(--body-font);
+  font-weight: 700; 
+  color: var(--primary-color);
+}
+
+#contact-us .lead {
+  font-family: var(--body-font);
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+#contact-us h3 {
+  color: var(--primary-color); 
+  font-family: var(--body-font); 
+}
+
+
+#contact-us .form-label {
+  font-family: var(--body-font);
+  font-size: 1rem;
+}
+
+#contact-us .form-control {
+  font-family: 'Nunito', sans-serif;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+}
+
+#contact-us .btn-primary {
+  font-family: var(--body-font);
+  background-color: var(--primary-color); 
+  border: none;
+}
+
+#contact-us .btn-primary:hover {
+  background-color: #0056b3; 
+}
+
+#contact-us .map-container iframe {
+  border-radius: 10px;
+  border: 2px solid var(--primary-color); 
+}
