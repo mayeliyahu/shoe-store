@@ -1,4 +1,3 @@
-
 //Searchbox function
 const searchIcon = document.getElementById('search-icon');
 const searchBox = document.getElementById('search-box');
