@@ -40,7 +40,7 @@ window.onload = function() {
   renderCart();
 };
 
-
+//Searchbox function
 const searchIcon = document.getElementById('search-icon');
 const searchBox = document.getElementById('search-box');
 const searchInput = document.getElementById('search-input');
@@ -55,6 +55,43 @@ searchIcon.addEventListener('click', function (event) {
 document.addEventListener('click', function (event) {
   if (!searchDropdown.contains(event.target)) {
     searchDropdown.classList.remove('search-active');
+  }
+});
+
+
+
+
+//Item Popup function
+function openPopup(item) {
+  const imageSrc = item.querySelector('img').src;
+  const title = item.querySelector('h6').innerText;
+  const originalPrice = item.querySelector('.original-price').innerText;
+  const newPrice = item.querySelector('.new-price').innerText;
+
+  document.getElementById('popup-image').src = imageSrc;
+  document.getElementById('popup-title').innerText = title;
+  document.getElementById('popup-original-price').innerText = originalPrice;
+  document.getElementById('popup-new-price').innerText = newPrice;
+
+  document.getElementById('popup-modal').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('popup-modal').style.display = 'none';
+}
+
+document.querySelectorAll('.item').forEach(item => {
+  item.addEventListener('click', function() {
+    openPopup(item);
+  });
+});
+
+document.querySelector('.close-popup').addEventListener('click', closePopup);
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('popup-modal');
+  if (event.target === modal) {
+    closePopup();
   }
 });
 
