@@ -326,6 +326,7 @@ a:hover {
   background-color: white;
   padding-left: 20px;
   padding-right: 20px;
+  font-family: var(--body-font);
 }
 
 footer {
@@ -715,3 +716,13 @@ label {
   font-family: var(--heading-font);
   text-transform: uppercase;
 }
+
+.order-history img{
+  width: 100px;
+}
+
+.order-table{
+  padding-top: 50px;
+}
+
+
