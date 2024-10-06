@@ -7,14 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let selectedGender = "";
 
-  if (currentPath.endsWith("women.html")) {
+  if (currentPath.endsWith("/women.html")) {
     selectedGender = "women";
+    fetchAllShoesByGender(selectedGender);
     setupFiltering();
-  } else if (currentPath.endsWith("men.html")) {
+  } else if (currentPath.endsWith("/men.html")) {
     selectedGender = "men";
+    fetchAllShoesByGender(selectedGender);
     setupFiltering();
-  } else if (currentPath.endsWith("index.html")) {
-    fetchAllShoes();
+  } else if (currentPath.endsWith("/index.html")) {
+    fetchNewshoes();
   }
 
   function setupFiltering() {
@@ -64,15 +66,27 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(shoes);
         console.log(url);
         createShoeCardItem(shoes);
+        addItemEventListener();
       } catch (error) {
         console.error("Error fetching shoes:", error);
       }
     }
   }
 
-  async function fetchAllShoes() {
+  async function fetchAllShoesByGender(gender) {
     try {
-      const response = await fetch(`${apiURI}/shoes`);
+      const response = await fetch(`${apiURI}/shoes?gender=${gender}`);
+      const shoes = await response.json();
+      createShoeCardItem(shoes);
+      addItemEventListener();
+    } catch (error) {
+      console.error("Error fetching shoes:", error);
+    }
+  }
+
+  async function fetchNewshoes() {
+    try {
+      const response = await fetch(`${apiURI}/shoes/new-items`);
       const shoes = await response.json();
       console.log(shoes);
       createNewItemsDiv(shoes);
@@ -85,10 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     shoes.forEach((shoe) => {
       const shoeDiv = document.createElement("div");
+      const genderImgDirectory =
+        shoe.gender == "men" ? "men-items" : "women-items";
       shoeDiv.classList.add("category");
 
       shoeDiv.innerHTML = `
-      <img src="./images/new-items/${shoe.name}.png" alt="${shoe.gender}" class="category-image">
+      <img src="./images/${genderImgDirectory}/${shoe.name}.png" alt="${shoe.gender}" class="category-image">
       <a>${shoe.price}$</a>
       <a class="nav-link" href="index.html">Shop Now</a>
         `;
@@ -105,13 +121,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     shoes.forEach((shoe) => {
       const shoeDiv = document.createElement("div");
+      const genderImgDirectory =
+        shoe.gender == "men" ? "men-items" : "women-items";
       shoeDiv.classList.add("item");
 
       shoeDiv.innerHTML = `
-        <img src="./images/new-items/${shoe.name}.png" alt="${shoe.name}">
+        <img src="./images/${genderImgDirectory}/${shoe.name}.png" alt="${shoe.name}">
         <h6>${shoe.name}</h6>
         <div class="price-container">
-          <span>${shoe.price}$</span>
+          <span class="price" >${shoe.price}$</span>
           
       </div> 
         `;
@@ -121,13 +139,34 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+//Item Popup function- men/woman
+function openPopup(item) {
+  const imageSrc = item.querySelector("img").src;
+  const title = item.querySelector("h6").innerText;
+  const price = item.querySelector(".price").innerText;
 
+  document.getElementById("popup-image").src = imageSrc;
+  document.getElementById("popup-title").innerText = title;
+  document.getElementById("popup-price").innerText = price;
+  document.getElementById("popup-modal").style.display = "flex";
+}
+function closePopup() {
+  document.getElementById("popup-modal").style.display = "none";
+}
+function addItemEventListener() {
+  document.querySelectorAll(".item").forEach((item) => {
+    console.log(item);
+    item.addEventListener("click", function () {
+      openPopup(item);
+    });
+  });
+}
 
+document.querySelector(".close-popup").addEventListener("click", closePopup);
 
-
-
-
-
-
-
-
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("popup-modal");
+  if (event.target === modal) {
+    closePopup();
+  }
+});

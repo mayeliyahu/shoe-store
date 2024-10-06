@@ -94,3 +94,25 @@ exports.deleteShoe = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getNewItemsShoes = async (req, res) => {
+  try {
+    const newItemsShoes = await Shoe.find({}).sort({ createdAt: -1 }).limit(6);
+    res.json(newItemsShoes);
+  } catch (error) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getSearchedShoesByName = async (req, res) => {
+  try {
+    if (!req.query.name) return res.json([]);
+    const searchedShoes = await Shoe.find({
+      name: { $regex: req.query.name, $options: "i" },
+    });
+
+    res.json(searchedShoes);
+  } catch (error) {
+    res.status(500).json({ error: err.message });
+  }
+};
