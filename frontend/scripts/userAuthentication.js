@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     replaceLogintoGreetingModal(userData.name);
   }
 
+  if (userData && userData.isAdmin) {
+    document.getElementById("management-button").style.display = "block";
+  }
+
   loginForm.addEventListener("submit", async function (event) {
     event.preventDefault();
 

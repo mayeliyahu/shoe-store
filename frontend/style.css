@@ -725,4 +725,22 @@ label {
   padding-top: 50px;
 }
 
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.user-item p {
+  margin: 0;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}

@@ -1,5 +1,6 @@
-const { query } = require("express");
-const Shoe = require("../models/Shoe");
+const fs = require('fs');
+const path = require('path');
+const Shoe = require('../models/Shoe');
 
 exports.getShoes = async (req, res) => {
   try {
@@ -37,21 +38,35 @@ exports.getShoes = async (req, res) => {
   }
 };
 
+async function ensureDirectoryExists(filePath) {
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+}
+
 exports.createShoe = async (req, res) => {
-  const { name, brand, availableSizes, inStockSizes, price, inStock, gender } =
-    req.body;
+  const { name, brand, availableSizes, inStockSizes, price, gender, salePrice,imageUploadPath, imagePath } = req.body;
   try {
-    const newShoe = new Shoe({
-      name,
-      brand,
-      availableSizes,
-      inStockSizes,
-      price,
-      inStock,
-      gender,
+    const fullImagePath = path.join(__dirname, '../frontend/', imagePath);
+    await ensureDirectoryExists(fullImagePath);
+    imageFile.mv(fullImagePath, (err) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to save the image file' });
+      }
+      const newShoe = new Shoe({
+        name,
+        brand,
+        availableSizes,
+        inStockSizes,
+        price,
+        gender,
+        salePrice
+      });
+      newShoe.save()
+        .then((savedShoe) => res.status(201).json(savedShoe))
+        .catch((err) => res.status(500).json({ error: err.message }));
     });
-    const shoe = await newShoe.save();
-    res.status(201).json(shoe);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

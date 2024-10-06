@@ -28,6 +28,10 @@ const shoeSchema = new mongoose.Schema({
     gender: {
         type: String, //"Men", "Women", or "Unisex"
         required: true
+    },
+    salePrice: {
+        type: Number,
+        default: null // Optional sale price
     }
 });
 
