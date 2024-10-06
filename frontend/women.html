@@ -67,15 +67,24 @@
             <ul class="d-flex justify-content-end list-unstyled mb-0">
               <li class="search-dropdown dropdown">
                 <a href="#" class="dropdown-toggle" id="search-icon" role="button">
-                  <svg class="search-icon">
-                    <use xlink:href="#search"></use>
-                  </svg>
+                    <svg class="search-icon">
+                        <use xlink:href="#search"></use>
+                    </svg>
                 </a>
                 <div class="search-box" id="search-box">
-                  <input type="text" class="form-control" id="search-input" placeholder="Search...">
+                    <input type="text" class="form-control" id="search-input" placeholder="Search...">
+                    <!-- search history popup -->
+                    <div id="search-history-popup" class="search-history-popup">
+                        <ul id="search-history-list">
+                          <li class="search-history-item">Adidas</li>
+                          <li class="search-history-item">Nike</li>
+                          <li class="search-history-item">Converse</li>
+                          <li class="search-history-item">Jordan</li>
+                        </ul>
+                    </div>
                 </div>
-              </li>
-              <li class="pe-3">
+            </li>              
+            <li class="pe-3">
                 <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                   <svg class="user">
                     <use xlink:href="#user"></use>
