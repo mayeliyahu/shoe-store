@@ -169,21 +169,24 @@ document.addEventListener("DOMContentLoaded", () => {
         if (salePrice) {
             imageFolder = 'images/sale-items/';
         }
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('brand', brand);
-        formData.append('availableSizes', availableSizes);
-        formData.append('inStockSizes', inStockSizes);
-        formData.append('price', price);
-        formData.append('salePrice', salePrice || null);
-        formData.append('gender', gender);
-        formData.append('imageUploadPath', imageFile.name); // User's local filename
-        formData.append('imagePath', `images/${gender.toLowerCase()}-items/${imageFile.name}`); // Path on the server
-
+        const payload = {
+            name,
+            brand,
+            availableSizes,
+            inStockSizes,
+            price,
+            salePrice,
+            gender,
+            imageUploadPath: imageFile.name,
+            imagePath: `${imageFolder}${imageFile.name}`,
+        };
         try {
             const response = await fetch("http://localhost:5001/api/shoes", {
                 method: "POST",
-                body: formData
+                            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
             });
 
             if (response.ok) {

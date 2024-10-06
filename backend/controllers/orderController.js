@@ -22,34 +22,6 @@ exports.createOrder = async (req, res) => {
     }
 };
 
-exports.deleteUser = async (req, res) => {
-    try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.json({ message: 'User deleted' });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
-
-exports.updateUser = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { name, email } = req.body;
-      const updatedUser = await User.findByIdAndUpdate(
-        id,
-        { name, email },
-        { new: true, runValidators: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      res.json(updatedUser);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  };
-
 exports.getOrderReports = async (req, res) => {
     try {
         const orders = await Order.aggregate([
