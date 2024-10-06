@@ -743,3 +743,13 @@ label {
   max-width: 50px;
   height: auto;
 }
+
+#order-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#buy-now-btn {
+  align-self: flex-end;
+}

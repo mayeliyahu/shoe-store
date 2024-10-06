@@ -83,3 +83,9 @@ window.onload = function() {
         updateCartDisplay();
     }
 };
+
+
+//buy now button
+document.getElementById('buy-now-btn').addEventListener('click', function() {
+    alert('Thank you for your purchase!');
+});
