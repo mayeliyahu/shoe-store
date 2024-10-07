@@ -46,14 +46,15 @@ async function ensureDirectoryExists(filePath) {
 }
 
 exports.createShoe = async (req, res) => {
-  const { name, brand, availableSizes, inStockSizes, price, gender, salePrice,imageUploadPath, imagePath } = req.body;
+  const { name, brand, availableSizes, inStockSizes, price, gender, salePrice,imageLocalPath, imageNewPath } = req.body;
   try {
-    const fullImagePath = path.join(__dirname, '../frontend/', imagePath);
+    const fullImagePath = path.join(__dirname, '../frontend/', imageNewPath);
     await ensureDirectoryExists(fullImagePath);
-    imageFile.mv(fullImagePath, (err) => {
+    fs.rename(imageLocalPath, fullImagePath, (err) => {
       if (err) {
-        return res.status(500).json({ error: 'Failed to save the image file' });
+        return res.status(500).json({ error: 'Failed to move the image file' });
       }
+      // Save shoe data without the image file
       const newShoe = new Shoe({
         name,
         brand,

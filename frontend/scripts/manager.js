@@ -177,8 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
             price,
             salePrice,
             gender,
-            imageUploadPath: imageFile.name,
-            imagePath: `${imageFolder}${imageFile.name}`,
+            imageLocalPath: imageFile.path,  // Automatically handled by the file input
+            imageNewPath: `${imageFolder}${imageFile.name}`,  // Where the image should be saved in the project        
         };
         try {
             const response = await fetch("http://localhost:5001/api/shoes", {
