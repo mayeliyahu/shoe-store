@@ -21,3 +21,37 @@ exports.createOrder = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getOrderReports = async (req, res) => {
+    try {
+        const orders = await Order.aggregate([
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$createdAt" },  // Group by year
+                        month: { $month: "$createdAt" }, // Group by month
+                        day: { $dayOfMonth: "$createdAt" } // Group by day
+                    },
+                    totalOrders: { $sum: 1 } // Count the number of orders on each day
+                }
+            },
+            {
+                $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } // Sort by year, month, and day
+            }
+        ]);
+        let cumulativeOrders = 0;
+        const cumulativeData = orders.map(order => {
+            cumulativeOrders += order.totalOrders; // Keep adding to cumulative count
+            return {
+                _id: {...order._id},
+                cumulativeOrders
+            };
+        });
+
+        res.json(cumulativeData);
+    } catch (err) {
+        console.log({err})
+        res.status(500).json({ error: err.message });
+    }
+};
+

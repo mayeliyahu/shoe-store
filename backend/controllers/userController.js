@@ -19,6 +19,24 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, email },
+      { new: true, runValidators: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.createUser = async (req, res) => {
   const { name, email, password, isAdmin } = req.body;
   try {
@@ -29,6 +47,16 @@ exports.createUser = async (req, res) => {
     res.status(201).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+      const user = await User.findByIdAndDelete(req.params.id);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+      res.json({ message: 'User deleted' });
+  } catch (err) {
+      res.status(500).json({ error: err.message });
   }
 };
 
@@ -45,5 +73,25 @@ exports.loginUser = async (req, res) => {
     res.json(users[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getUserReports = async (req, res) => {
+  try {
+      const users = await User.aggregate([
+          {
+              $group: {
+                  _id: {
+                      year: { $year: "$createdAt" },
+                      month: { $month: "$createdAt" }
+                  }, // Group by year and month
+                  count: { $sum: 1 } // Count the number of users registered in that month
+              }
+          },
+      ]);
+
+      res.json(users);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
   }
 };

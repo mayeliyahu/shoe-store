@@ -29,6 +29,10 @@ const shoeSchema = new mongoose.Schema({
     type: String, //"Men", "Women", or "Unisex"
     required: true,
   },
+  salePrice: {
+    type: Number,
+    default: null, // Optional sale price
+  },
   createdAt: {
     type: Date,
     default: Date.now,
