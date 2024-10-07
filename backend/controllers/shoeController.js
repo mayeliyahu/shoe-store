@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const Shoe = require('../models/Shoe');
+const fs = require("fs");
+const path = require("path");
+const Shoe = require("../models/Shoe");
 
 exports.getShoes = async (req, res) => {
   try {
@@ -46,13 +46,23 @@ async function ensureDirectoryExists(filePath) {
 }
 
 exports.createShoe = async (req, res) => {
-  const { name, brand, availableSizes, inStockSizes, price, gender, salePrice,imageLocalPath, imageNewPath } = req.body;
+  const {
+    name,
+    brand,
+    availableSizes,
+    inStockSizes,
+    price,
+    gender,
+    salePrice,
+    imageLocalPath,
+    imageNewPath,
+  } = req.body;
   try {
-    const fullImagePath = path.join(__dirname, '../frontend/', imageNewPath);
+    const fullImagePath = path.join(__dirname, "../frontend/", imageNewPath);
     await ensureDirectoryExists(fullImagePath);
     fs.rename(imageLocalPath, fullImagePath, (err) => {
       if (err) {
-        return res.status(500).json({ error: 'Failed to move the image file' });
+        return res.status(500).json({ error: "Failed to move the image file" });
       }
       // Save shoe data without the image file
       const newShoe = new Shoe({
@@ -62,9 +72,10 @@ exports.createShoe = async (req, res) => {
         inStockSizes,
         price,
         gender,
-        salePrice
+        salePrice,
       });
-      newShoe.save()
+      newShoe
+        .save()
         .then((savedShoe) => res.status(201).json(savedShoe))
         .catch((err) => res.status(500).json({ error: err.message }));
     });
@@ -125,7 +136,7 @@ exports.getSearchedShoesByName = async (req, res) => {
     if (!req.query.name) return res.json([]);
     const searchedShoes = await Shoe.find({
       name: { $regex: req.query.name, $options: "i" },
-    });
+    }).limit(5);
 
     res.json(searchedShoes);
   } catch (error) {
