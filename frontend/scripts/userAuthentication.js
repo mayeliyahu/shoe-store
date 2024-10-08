@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (userData && userData.isAdmin) {
+    console.log("admin");
     document.getElementById("management-button").style.display = "block";
   }
 

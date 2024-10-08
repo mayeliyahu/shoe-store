@@ -784,3 +784,94 @@ label {
 .search-dropdown {
   position: relative;
 }
+
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+#header-nav {
+  background-color: #f8f9fa;
+}
+
+.logo {
+  width: 150px;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 700;
+  color: #333;
+}
+
+.navbar-nav .nav-link.active {
+  color: #dc3545;
+}
+
+#management-intro {
+  background-color: #f8d7da;
+  border: 2px solid #dc3545;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+/* Scope the styles to elements inside .reports-page */
+.reports-page .chart-block {
+  background-color: #f8f9fa;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reports-page #bar-chart, .reports-page #line-chart {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: 10px !important;
+  vertical-align: top !important;
+}
+
+.reports-page svg {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.reports-page h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.reports-page .axis text {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 1rem !important;
+  fill: #555 !important;
+}
+
+.reports-page .axis path, .reports-page .axis line {
+  stroke: #888 !important;
+}
+
+.reports-page .bar {
+  fill: steelblue !important;
+  transition: fill 0.3s ease;
+}
+
+.reports-page .bar:hover {
+  fill: #1f77b4 !important;
+}
+
+.reports-page .line {
+  stroke: steelblue !important;
+  stroke-width: 2 !important;
+  transition: stroke 0.3s ease;
+}
+
+.reports-page .line:hover {
+  stroke: #1f77b4 !important;
+}
+
