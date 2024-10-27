@@ -47,7 +47,7 @@ exports.getOrderReports = async (req, res) => {
                 cumulativeOrders
             };
         });
-
+        console.log({cumulativeData});
         res.json(cumulativeData);
     } catch (err) {
         console.log({err})

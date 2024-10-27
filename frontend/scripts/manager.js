@@ -210,32 +210,33 @@ document.addEventListener("DOMContentLoaded", () => {
     
         // Fetch users data (commented out until backend is ready)
      
-        //const usersResponse = await fetch("http://localhost:5001/api/users/reports");
-        //const usersData = await usersResponse.json();
-      
+        const usersResponse = await fetch("http://localhost:5001/api/users/reports");
+        let usersData = await usersResponse.json();
+        console.log({usersData});
     
         // Fetch orders data (commented out until backend is ready)
         
-        //const ordersResponse = await fetch("http://localhost:5001/api/orders/reports");
-        //const ordersData = await ordersResponse.json();
-        
+        const ordersResponse = await fetch("http://localhost:5001/api/orders/reports");
+        let ordersData = await ordersResponse.json();
+        console.log({ordersData});
+
     
         // Static data for now (replace with fetched data once backend is ready)
-        const usersData = [
-            { _id: { year: 2024, month: 1 }, count: 20 },
-            { _id: { year: 2024, month: 2 }, count: 15 },
-            { _id: { year: 2024, month: 3 }, count: 30 },
-            { _id: { year: 2024, month: 4 }, count: 100 },
-            { _id: { year: 2024, month: 5 }, count: 40 }
-        ];
+        //  usersData = [
+        //     { _id: { year: 2024, month: 1 }, count: 20 },
+        //     { _id: { year: 2024, month: 2 }, count: 15 },
+        //     { _id: { year: 2024, month: 3 }, count: 30 },
+        //     { _id: { year: 2024, month: 4 }, count: 100 },
+        //     { _id: { year: 2024, month: 5 }, count: 40 }
+        // ];
     
-        const ordersData = [
-            { _id: { year: 2024, month: 1 }, cumulativeOrders: 50 },
-            { _id: { year: 2024, month: 2 }, cumulativeOrders: 120 },
-            { _id: { year: 2024, month: 3 }, cumulativeOrders: 200 },
-            { _id: { year: 2024, month: 4 }, cumulativeOrders: 300 },
-            { _id: { year: 2024, month: 5 }, cumulativeOrders: 500 }
-        ];
+        //  ordersData = [
+        //     { _id: { year: 2024, month: 1 }, cumulativeOrders: 50 },
+        //     { _id: { year: 2024, month: 2 }, cumulativeOrders: 120 },
+        //     { _id: { year: 2024, month: 3 }, cumulativeOrders: 200 },
+        //     { _id: { year: 2024, month: 4 }, cumulativeOrders: 300 },
+        //     { _id: { year: 2024, month: 5 }, cumulativeOrders: 500 }
+        // ];
     
         createBarChart("#bar-chart", usersData, "Users Chart");
         createLinearChart("#line-chart", ordersData, "Orders Chart");
