@@ -1,4 +1,11 @@
-//serach function
+document.addEventListener("DOMContentLoaded", () => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData);
+  if (userData && userData.isAdmin) {
+    console.log("heyy");
+    document.getElementById("management-button-navbar").style.display = "block";
+  }
+});
 
 //order summary
 function updateCartDisplay() {
