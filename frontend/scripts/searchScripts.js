@@ -4,6 +4,7 @@ const searchIcon = document.getElementById("search-icon");
 const searchBox = document.getElementById("search-box");
 const searchInput = document.getElementById("search-input");
 const searchHistoryPopup = document.getElementById("search-history-popup");
+
 searchIcon.addEventListener("click", function (event) {
   event.preventDefault();
   searchBox.style.display = "block";
