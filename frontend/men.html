@@ -481,31 +481,23 @@
         <h6 id="popup-title"></h6>
         <div class="popup-sizes">
           <label for="sizes">Size:</label>
-          <select id="sizes">
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
+          <select id="sizes"></select>
         </div>
-        <div class="popup-color">
-          <label for="color">Color:</label>
-          <select id="color">
-            <option value="black">Black</option>
-            <option value="white">White</option>
-            <option value="red">Red</option>
-            <option value="blue">Blue</option>
-            <option value="brown">Brown</option>
-          </select>
-        </div>
+
         <div class="popup-price">
           <span id="popup-price"></span>
         </div>
-        <button class="add-to-cart-btn">Add to Cart</button>
-        <button class="add-to-cart-btn">Add to Wishlist</button>
+        <div id="login-reminder" class="login-reminder">
+          <p>
+            Please log in to access more features and complete your actions.
+          </p>
+        </div>
+        <div id="shoe-popup-user-actions">
+          <button class="add-to-cart-btn" id="add-to-cart-btn">
+            Add to Cart
+          </button>
+          <button class="add-to-cart-btn">Add to Wishlist</button>
+        </div>
       </div>
     </div>
 
@@ -599,13 +591,11 @@
       </div>
     </footer>
     <script src="./scripts/userAuthentication.js"></script>
-    <script src="./scripts/scripts.js"></script>
     <script src="./scripts/searchScripts.js"></script>
-    <script src="./scripts/script_men&woman.js"></script>
+
     <script src="./scripts/priceRange.js"></script>
     <script src="./scripts/shoesScripts.js"></script>
     <script src="./scripts/wishlistScripts.js"></script>
-    <script src="./scripts/searchScripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

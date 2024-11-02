@@ -786,7 +786,7 @@ label {
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 #header-nav {
@@ -824,7 +824,8 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.reports-page #bar-chart, .reports-page #line-chart {
+.reports-page #bar-chart,
+.reports-page #line-chart {
   display: block !important;
   width: 100% !important;
   height: auto !important;
@@ -840,19 +841,20 @@ body {
 }
 
 .reports-page h2 {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: 1.5rem;
   color: #333;
   text-align: center;
 }
 
 .reports-page .axis text {
-  font-family: 'Nunito', sans-serif !important;
+  font-family: "Nunito", sans-serif !important;
   font-size: 1rem !important;
   fill: #555 !important;
 }
 
-.reports-page .axis path, .reports-page .axis line {
+.reports-page .axis path,
+.reports-page .axis line {
   stroke: #888 !important;
 }
 
@@ -875,3 +877,32 @@ body {
   stroke: #1f77b4 !important;
 }
 
+.login-reminder {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ed544c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.login-reminder p {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.buy-now-btn-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

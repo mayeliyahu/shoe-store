@@ -1,6 +1,6 @@
 const Shoe = require("../models/Shoe");
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 exports.getShoes = async (req, res) => {
   try {
     const filterQuery = {};
@@ -21,6 +21,10 @@ exports.getShoes = async (req, res) => {
       filterQuery.gender = { $in: [userQuery.gender, "unisex"] };
     }
 
+    if (userQuery.sale && userQuery.sale == "true") {
+      filterQuery.salePrice = { $ne: null };
+    }
+
     if (userQuery.minPrice || userQuery.maxPrice) {
       filterQuery.price = {};
       if (userQuery.minPrice) {
@@ -38,31 +42,75 @@ exports.getShoes = async (req, res) => {
 };
 
 exports.createShoe = async (req, res) => {
-  const { name, brand, availableSizes, inStockSizes, price, gender, salePrice, fullFilePath, imageNewPath } = req.body;
-  const defaultImage = path.join(__dirname, '../frontend/images/default-image.png');
-  const fullImagePath = path.join(__dirname, '../../frontend/', imageNewPath);
+  console.log(req.body);
+  const {
+    name,
+    brand,
+    availableSizes,
+    inStockSizes,
+    price,
+    gender,
+    salePrice,
+    fullFilePath,
+    imageNewPath,
+  } = req.body;
+  const defaultImage = path.join(
+    __dirname,
+    "../frontend/images/default-image.png"
+  );
+  const fullImagePath = path.join(__dirname, "../../frontend/", imageNewPath);
   try {
     const dir = path.dirname(fullImagePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    const sourceImagePath = (fullFilePath && fs.existsSync(fullFilePath)) ? fullFilePath : defaultImage;
+    const sourceImagePath =
+      fullFilePath && fs.existsSync(fullFilePath) ? fullFilePath : defaultImage;
     fs.copyFile(sourceImagePath, fullImagePath, (err) => {
       if (err) {
-        return res.status(500).json({ error: `Failed to copy the image file from ${sourceImagePath}` });
+        return res.status(500).json({
+          error: `Failed to copy the image file from ${sourceImagePath}`,
+        });
       }
-      saveShoeData(name, brand, availableSizes, inStockSizes, price, gender, salePrice, res);
+      saveShoeData(
+        name,
+        brand,
+        availableSizes,
+        inStockSizes,
+        price,
+        gender,
+        salePrice,
+        res
+      );
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const saveShoeData = (name, brand, availableSizes, inStockSizes, price, gender, salePrice, res) => {
-  const newShoe = new Shoe({ name, brand, availableSizes, inStockSizes, price, gender, salePrice });
-  newShoe.save()
-    .then(savedShoe => res.status(201).json(savedShoe))
-    .catch(err => res.status(500).json({ error: err.message }));
+const saveShoeData = (
+  name,
+  brand,
+  availableSizes,
+  inStockSizes,
+  price,
+  gender,
+  salePrice,
+  res
+) => {
+  const newShoe = new Shoe({
+    name,
+    brand,
+    availableSizes,
+    inStockSizes,
+    price,
+    gender,
+    salePrice,
+  });
+  newShoe
+    .save()
+    .then((savedShoe) => res.status(201).json(savedShoe))
+    .catch((err) => res.status(500).json({ error: err.message }));
 };
 
 exports.getShoeById = async (req, res) => {

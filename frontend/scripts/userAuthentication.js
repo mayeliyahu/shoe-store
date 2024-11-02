@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (userData && userData.isAdmin) {
-    console.log("admin");
-    document.getElementById("management-button").style.display = "block";
+    document.getElementById("management-button-navbar").style.display = "block";
   }
 
   loginForm.addEventListener("submit", async function (event) {
@@ -37,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         replaceLogintoGreetingModal(data.name);
 
         clearInputs("#loginForm");
+
         closeModal();
 
         console.log(data);

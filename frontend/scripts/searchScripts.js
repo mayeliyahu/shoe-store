@@ -44,11 +44,3 @@ function displayResults(shoes) {
     resultsContainer.appendChild(resultItem);
   });
 }
-// document.addEventListener("click", function (event) {
-//   const dropdown = document.getElementById("search-dropdown");
-//   const searchIcon = document.getElementById("search-icon");
-
-//   if (!dropdown.contains(event.target) && !searchIcon.contains(event.target)) {
-//     dropdown.classList.remove("show");
-//   }
-// });

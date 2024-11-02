@@ -246,6 +246,35 @@
       <h3>NEW ITEMS</h3>
       <div class="brands-container" id="allShoesDisplayContainer"></div>
     </section>
+
+    <!-- Items popup -->
+    <div id="popup-modal" class="popup-modal" style="display: none">
+      <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <img id="popup-image" src="" alt="Shoe Image" />
+        <h6 id="popup-title"></h6>
+        <div class="popup-sizes">
+          <label for="sizes">Size:</label>
+          <select id="sizes"></select>
+        </div>
+
+        <div class="popup-price">
+          <span id="popup-price"></span>
+        </div>
+        <div id="login-reminder" class="login-reminder">
+          <p>
+            Please log in to access more features and complete your actions.
+          </p>
+        </div>
+        <div id="shoe-popup-user-actions">
+          <button class="add-to-cart-btn" id="add-to-cart-btn">
+            Add to Cart
+          </button>
+          <button class="add-to-cart-btn">Add to Wishlist</button>
+        </div>
+      </div>
+    </div>
+
     <!-- explore categories -->
     <section class="our-brands">
       <h3>EXPLORE MORE</h3>
@@ -520,12 +549,13 @@
       </div>
     </div>
     <!-- scripts -->
+
     <script src="./scripts/userAuthentication.js"></script>
 
     <script src="./scripts/searchScripts.js"></script>
     <script src="./scripts/shoesScripts.js"></script>
     <script src="./scripts/manager.js"></script>
-    <script src="./scripts/scripts.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
