@@ -875,3 +875,30 @@ body {
   stroke: #1f77b4 !important;
 }
 
+
+
+#stock-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#stock-table th, #stock-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+#stock-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#stock-table .up {
+  color: green;
+}
+
+#stock-table .down {
+  color: red;
+}
+
+

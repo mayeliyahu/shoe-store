@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const addShoeTab = document.getElementById("add-shoe-tab");
     const content = document.getElementById("content");
     const intro = document.getElementById("management-intro");
+    const webServiceTab = document.getElementById("web-service-tab");
 
     // Event listeners for tabs
     userManagementTab.addEventListener("click", function () {
@@ -57,6 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
     addShoeTab.addEventListener("click", function () {
         setActiveTab(this);
         loadAddShoe();
+    });
+
+    webServiceTab.addEventListener("click", function () {
+        setActiveTab(this);
+        loadStockPrices();
     });
 
     // Function to set active tab and hide intro message
@@ -207,40 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadCharts() {
         console.log("Rendering charts...");
-    
-        // Fetch users data (commented out until backend is ready)
-     
         const usersResponse = await fetch("http://localhost:5001/api/users/reports");
         let usersData = await usersResponse.json();
         console.log({usersData});
-    
-        // Fetch orders data (commented out until backend is ready)
-        
         const ordersResponse = await fetch("http://localhost:5001/api/orders/reports");
         let ordersData = await ordersResponse.json();
         console.log({ordersData});
-
-    
-        // Static data for now (replace with fetched data once backend is ready)
-        //  usersData = [
-        //     { _id: { year: 2024, month: 1 }, count: 20 },
-        //     { _id: { year: 2024, month: 2 }, count: 15 },
-        //     { _id: { year: 2024, month: 3 }, count: 30 },
-        //     { _id: { year: 2024, month: 4 }, count: 100 },
-        //     { _id: { year: 2024, month: 5 }, count: 40 }
-        // ];
-    
-        //  ordersData = [
-        //     { _id: { year: 2024, month: 1 }, cumulativeOrders: 50 },
-        //     { _id: { year: 2024, month: 2 }, cumulativeOrders: 120 },
-        //     { _id: { year: 2024, month: 3 }, cumulativeOrders: 200 },
-        //     { _id: { year: 2024, month: 4 }, cumulativeOrders: 300 },
-        //     { _id: { year: 2024, month: 5 }, cumulativeOrders: 500 }
-        // ];
-    
         createBarChart("#bar-chart", usersData, "Users Chart");
         createLinearChart("#line-chart", ordersData, "Orders Chart");
-    
         console.log("Charts rendered successfully");
     }
     
@@ -321,5 +301,71 @@ document.addEventListener("DOMContentLoaded", () => {
         svg.append("g")
             .attr("transform", `translate(${margin.left},0)`)
             .call(d3.axisLeft(yScale));
+    }
+
+   function loadStockPrices() {
+        content.innerHTML = `
+        <h3>Shoe Brand & Retailer Stock Prices</h3>
+        <p>Latest stock prices for popular shoe brands and retailers:</p>
+        <table class="table table-striped" id="stock-table">
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Stock Symbol</th>
+                    <th>Current Price</th>
+                    <th>Change (%)</th>
+                </tr>
+            </thead>
+            <tbody id="stock-data"></tbody>
+        </table>`;
+
+        fetchStockPrices();
+    }
+    async function fetchStockPrices() {
+        const stockDataDiv = document.getElementById("stock-data");
+    
+        const symbols = [
+            { name: "Adidas", symbol: "ADDYY" },
+            { name: "Nike", symbol: "NKE" },
+            { name: "Puma", symbol: "PUMSY" },
+            { name: "Skechers", symbol: "SKX" },
+            { name: "Under Armour", symbol: "UAA" },
+            { name: "Foot Locker", symbol: "FL" },
+            { name: "JD Sports", symbol: "JDSPY" }
+        ];
+    
+        stockDataDiv.innerHTML = "<tr><td colspan='4'>Loading stock data...</td></tr>";
+    
+        try {
+            const response = await fetch("http://localhost:5001/api/services/stock-prices");
+            const stockData = await response.json();
+            console.log({ stockData });
+    
+            // Create a mapping of stock data by symbol
+            const stockMap = stockData.reduce((map, data) => {
+                map[data.symbol] = data;
+                return map;
+            }, {});
+    
+            stockDataDiv.innerHTML = symbols.map(({ name, symbol }) => {
+                const data = stockMap[symbol];
+                if (!data) {
+                    return `<tr><td colspan="4">Data unavailable for ${name}</td></tr>`;
+                }
+                const color = data.direction === 'up' ? 'green' : 'red';
+                const sign = data.direction === 'up' ? '+' : '';
+    
+                return `
+                    <tr>
+                        <td>${name}</td>
+                        <td>${symbol}</td>
+                        <td>$${data.latestPrice}</td>
+                        <td style="color: ${color};">${sign}${data.percentChange}%</td>
+                    </tr>`;
+            }).join("");
+        } catch (error) {
+            stockDataDiv.innerHTML = "<tr><td colspan='4'>Error fetching stock data.</td></tr>";
+            console.error("Error fetching stock prices:", error);
+        }
     }
 });
