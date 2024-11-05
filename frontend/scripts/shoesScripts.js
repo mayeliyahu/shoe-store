@@ -399,7 +399,7 @@ async function updateCartDisplay() {
             orderSummaryItemsContainer.innerHTML =
               '<li class="list-group-item text-center">Your order summary is empty</li>';
             console.log(await response.json());
-            alert("Thank you for your purchase!");
+            location.href = "thanksForOrder.html";
           }
         });
   }

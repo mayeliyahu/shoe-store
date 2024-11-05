@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const data = await response.json();
         alert("Login successful!");
+        location.reload();
 
         localStorage.setItem("user", JSON.stringify(data));
         replaceLogintoGreetingModal(data.name);
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.removeItem("user");
-      location.reload();
+      location.href = "index.html";
     });
   }
 });
