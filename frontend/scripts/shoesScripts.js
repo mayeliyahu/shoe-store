@@ -261,7 +261,7 @@ async function addToCart(shoe, size) {
     shoeSize: size,
     quantity: 1,
   };
-  const response = await fetch("http://localhost:5001/api/cart", {
+  const response = await fetch(`${apiURI}/cart`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -274,12 +274,9 @@ async function addToCart(shoe, size) {
 
 async function removeFromCart(shoeId, userId) {
   console.log("sdsad");
-  const response = await fetch(
-    `http://localhost:5001/api/cart/${userId}?shoeId=${shoeId}`,
-    {
-      method: "DELETE",
-    }
-  );
+  const response = await fetch(`${apiURI}/cart/${userId}?shoeId=${shoeId}`, {
+    method: "DELETE",
+  });
   console.log(await response.json());
   updateCartDisplay();
 }
@@ -290,7 +287,7 @@ async function updateCartDisplay() {
   let cartTotalPrice = 0;
 
   const userData = JSON.parse(localStorage.getItem("user"));
-  const res = await fetch(`http://localhost:5001/api/cart/${userData._id}`);
+  const res = await fetch(`${apiURI}/cart/${userData._id}`);
 
   const orderSummaryItemsContainer = document.getElementById(
     "order-summary-items"
@@ -388,7 +385,7 @@ async function updateCartDisplay() {
               items: userCart.items,
               total: cartTotalPrice,
             };
-            const response = await fetch("http://localhost:5001/api/orders", {
+            const response = await fetch(`${apiURI}/orders`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
