@@ -877,6 +877,84 @@ body {
   stroke: #1f77b4 !important;
 }
 
+#stock-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#stock-table th,
+#stock-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+#stock-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#stock-table .up {
+  color: green;
+}
+
+#stock-table .down {
+  color: red;
+}
+
+.tweet-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.tweet-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+#stock-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#stock-table th,
+#stock-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+#stock-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#stock-table .up {
+  color: green;
+}
+
+#stock-table .down {
+  color: red;
+}
+
+.tweet-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.tweet-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
 .login-reminder {
   max-width: 400px;
   margin: 20px auto;
