@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("content");
     const intro = document.getElementById("management-intro");
     const webServiceTab = document.getElementById("web-service-tab");
+    const twitterTab = document.getElementById("twitter-tab");
 
     // Event listeners for tabs
     userManagementTab.addEventListener("click", function () {
@@ -63,6 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
     webServiceTab.addEventListener("click", function () {
         setActiveTab(this);
         loadStockPrices();
+    });
+
+    twitterTab.addEventListener("click", function () {
+        setActiveTab(this);
+        loadTweets();
     });
 
     // Function to set active tab and hide intro message
@@ -346,7 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 map[data.symbol] = data;
                 return map;
             }, {});
-    
             stockDataDiv.innerHTML = symbols.map(({ name, symbol }) => {
                 const data = stockMap[symbol];
                 if (!data) {
@@ -354,7 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 const color = data.direction === 'up' ? 'green' : 'red';
                 const sign = data.direction === 'up' ? '+' : '';
-    
                 return `
                     <tr>
                         <td>${name}</td>
@@ -366,6 +370,39 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             stockDataDiv.innerHTML = "<tr><td colspan='4'>Error fetching stock data.</td></tr>";
             console.error("Error fetching stock prices:", error);
+        }
+    }
+
+    function loadTweets() {
+        content.innerHTML = `
+            <h3>Latest Updates from @SneakerNews</h3>
+            <p><strong>@SneakerNews</strong> is a premier source for all things sneakers, providing real-time updates on the latest releases, exclusive previews, trending styles, and must-have deals in the sneaker world. Stay informed on what’s hot and upcoming in sneaker culture.</p>
+            <p>Follow along to catch the first look at new collections from top brands like Nike, Adidas, and more.</p>
+            <div id="tweet-data"></div>
+        `;
+        fetchTweets();
+    }
+    
+    async function fetchTweets() {
+        const tweetDataDiv = document.getElementById("tweet-data");
+        tweetDataDiv.innerHTML = "Loading tweets...";
+        try {
+            const response = await fetch(`http://localhost:5001/api/services/tweets/getRecent`);
+            const data = await response.json();
+
+            function makeLinksClickable(text) {
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+            }
+
+            tweetDataDiv.innerHTML = data.recentTweets.map(tweet => `
+              <div class="tweet-card">
+                <p>${makeLinksClickable(tweet)}</p>
+            </div>
+            `).join("");
+        } catch (error) {
+            console.error("Error fetching tweets:", error);
+            tweetDataDiv.innerHTML = "Error fetching tweets.";
         }
     }
 });

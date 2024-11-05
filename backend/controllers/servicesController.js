@@ -64,3 +64,35 @@ function fetchStockData(symbol) {
         });
     });
 }
+
+const SNEAKER_NEWS_USER_ID = '16180874';
+
+exports.getRecentTweets = (req, res) => {
+    const optionsTweets = {
+        hostname: 'api.twitter.com',
+        path: `/2/users/${SNEAKER_NEWS_USER_ID}/tweets?max_results=5`,
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+            'Content-Type': 'application/json',
+        },
+    };
+    https.get(optionsTweets, (tweetResponse) => {
+        let tweetData = '';
+        tweetResponse.on('data', (chunk) => (tweetData += chunk));
+        tweetResponse.on('end', () => {
+            if (tweetResponse.statusCode === 200) {
+                const tweets = JSON.parse(tweetData);
+                // Map to return only the text of each tweet
+                const recentTweets = (tweets.data || []).map(tweet => tweet.text);
+                res.json({ userId: SNEAKER_NEWS_USER_ID, recentTweets });
+            } else {
+                console.error("Twitter API Error:", tweetData);
+                res.status(tweetResponse.statusCode).json({ error: "Failed to fetch tweets" });
+            }
+        });
+    }).on('error', (error) => {
+        console.error("Request Error:", error);
+        res.status(500).json({ error: "Failed to fetch tweets" });
+    });
+};

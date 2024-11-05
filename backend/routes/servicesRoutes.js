@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getStockPrices } = require('../controllers/servicesController');
+const { getStockPrices , getRecentTweets } = require('../controllers/servicesController');
 
-// Define route for fetching stock prices
 router.get('/stock-prices', getStockPrices);
+router.get('/tweets/getRecent', getRecentTweets);
 
 module.exports = router;
