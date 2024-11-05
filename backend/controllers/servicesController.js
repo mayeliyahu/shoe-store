@@ -1,19 +1,63 @@
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 const https = require('https');
 
 const API_KEY = process.env.AlphaKey;
 const BASE_URL = 'https://www.alphavantage.co/query';
+const SNEAKER_NEWS_USER_ID = '16180874';
 
 const symbols = ['ADDYY', 'NKE', 'PUMSY', 'SKX', 'UAA', 'FL', 'JDSPY'];
 
+// Cache paths and expiration durations
+const STOCK_CACHE_PATH = path.join(__dirname, 'cache', 'stockData.json');
+const TWEET_CACHE_PATH = path.join(__dirname, 'cache', 'tweets.json');
+const STOCK_CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const TWEET_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
+// Read cache from file if valid
+function readCache(filePath, maxAge) {
+    try {
+        const stats = fs.statSync(filePath);
+        const now = Date.now();
+        if (now - stats.mtimeMs < maxAge) {
+            const data = fs.readFileSync(filePath, 'utf-8');
+            return JSON.parse(data);
+        }
+    } catch (error) {
+        // If file doesn't exist or is expired, return null
+        return null;
+    }
+    return null;
+}
+
+// Write data to cache file
+function writeCache(filePath, data) {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(filePath, JSON.stringify(data));
+}
+
+// Function to fetch stock data and cache it
 exports.getStockPrices = async (req, res) => {
+    // Check cache
+    const cachedData = readCache(STOCK_CACHE_PATH, STOCK_CACHE_DURATION);
+    if (cachedData) {
+        return res.json(cachedData);
+    }
+
     try {
         const stockData = [];
         for (const symbol of symbols) {
             const data = await fetchStockData(symbol);
             stockData.push(data);
-            await new Promise(resolve => setTimeout(resolve, 12000)); // 12-second delay between requests to avoid rate limits
+            await new Promise(resolve => setTimeout(resolve, 12000)); // 12-second delay to avoid rate limits
         }
+
+        // Cache new stock data
+        writeCache(STOCK_CACHE_PATH, stockData);
         res.json(stockData);
     } catch (error) {
         console.error("Error fetching stock prices:", error);
@@ -21,6 +65,7 @@ exports.getStockPrices = async (req, res) => {
     }
 };
 
+// Helper function to fetch individual stock data
 function fetchStockData(symbol) {
     const url = `${BASE_URL}?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
 
@@ -65,9 +110,14 @@ function fetchStockData(symbol) {
     });
 }
 
-const SNEAKER_NEWS_USER_ID = '16180874';
-
+// Function to fetch recent tweets with caching
 exports.getRecentTweets = (req, res) => {
+    // Check cache
+    const cachedData = readCache(TWEET_CACHE_PATH, TWEET_CACHE_DURATION);
+    if (cachedData) {
+        return res.json(cachedData);
+    }
+
     const optionsTweets = {
         hostname: 'api.twitter.com',
         path: `/2/users/${SNEAKER_NEWS_USER_ID}/tweets?max_results=5`,
@@ -77,15 +127,20 @@ exports.getRecentTweets = (req, res) => {
             'Content-Type': 'application/json',
         },
     };
+
     https.get(optionsTweets, (tweetResponse) => {
         let tweetData = '';
         tweetResponse.on('data', (chunk) => (tweetData += chunk));
         tweetResponse.on('end', () => {
             if (tweetResponse.statusCode === 200) {
                 const tweets = JSON.parse(tweetData);
-                // Map to return only the text of each tweet
                 const recentTweets = (tweets.data || []).map(tweet => tweet.text);
-                res.json({ userId: SNEAKER_NEWS_USER_ID, recentTweets });
+
+                // Cache the new tweet data
+                const cacheData = { userId: SNEAKER_NEWS_USER_ID, recentTweets };
+                writeCache(TWEET_CACHE_PATH, cacheData);
+
+                res.json(cacheData);
             } else {
                 console.error("Twitter API Error:", tweetData);
                 res.status(tweetResponse.statusCode).json({ error: "Failed to fetch tweets" });
