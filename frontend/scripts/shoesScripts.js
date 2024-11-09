@@ -217,11 +217,11 @@ function openShoePopup(item) {
   } else {
     document.getElementById("popup-price").innerText = item.price + "$";
   }
-
-  item.inStockSizes.forEach((size) => {
+  item.availableSizes.forEach((size) => {
     const option = document.createElement("option");
     option.value = size;
     option.textContent = size;
+    option.disabled = !item.inStockSizes.includes(size);
     sizesSelect.appendChild(option);
   });
 

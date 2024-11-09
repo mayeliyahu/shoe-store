@@ -1,5 +1,6 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
+const Shoe = require("../models/Shoe");
 
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
@@ -41,6 +42,13 @@ exports.createOrder = async (req, res) => {
   try {
     const newOrder = new Order({ user: userId, items: items, total: total });
     const order = await newOrder.save();
+    items.forEach(async (item) => {
+      const shoe = item.shoe;
+      await Shoe.updateOne(
+        { _id: shoe._id },
+        { $pull: { inStockSizes: item.size } }
+      );
+    });
     await Cart.findOneAndDelete({ user: userId });
     res.status(201).json(order);
   } catch (err) {
