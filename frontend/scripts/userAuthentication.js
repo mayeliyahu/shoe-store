@@ -1,3 +1,5 @@
+const API_URI = "http://localhost:5001/api";
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const registerForm = document.getElementById("registerForm");
@@ -5,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const userData = JSON.parse(localStorage.getItem("user"));
   if (userData) {
     replaceLogintoGreetingModal(userData.name);
+  }
+
+  if (userData && userData.isAdmin) {
+    document.getElementById("management-button-navbar").style.display = "block";
   }
 
   loginForm.addEventListener("submit", async function (event) {
@@ -16,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5001/api/users/login`, {
+      const response = await fetch(`${API_URI}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
@@ -25,11 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const data = await response.json();
         alert("Login successful!");
+        location.reload();
 
         localStorage.setItem("user", JSON.stringify(data));
         replaceLogintoGreetingModal(data.name);
 
         clearInputs("#loginForm");
+
         closeModal();
 
         console.log(data);
@@ -59,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5001/api/users/", {
+      const response = await fetch(`${API_URI}/users/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerData),
@@ -123,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.removeItem("user");
-      location.reload();
+      location.href = "index.html";
     });
   }
 });

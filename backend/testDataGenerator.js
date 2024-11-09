@@ -122,7 +122,7 @@ async function runTests() {
 
 async function initDB() {
   //Step 1: drop all DB Tables
-
+  await dropDB();
   // Step 1: Create user
   usersToCreate.forEach(async (user) => {
     const userCreated = await createUser(user);
