@@ -1,12 +1,36 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 
+function formatDate(date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 exports.getOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.params.userId })
-      .sort({ createdAt: -1 })
-      .populate("items.shoe");
-    res.json(orders);
+    const orderQuery = req.query;
+    let orders = [];
+    if (orderQuery.orderId) {
+      orders = await Order.find({
+        user: req.params.userId,
+        _id: orderQuery.orderId,
+      })
+        .sort({ createdAt: -1 })
+        .populate("items.shoe");
+    } else {
+      orders = await Order.find({ user: req.params.userId })
+        .sort({ createdAt: -1 })
+        .populate("items.shoe");
+    }
+    if (orders == []) return orders;
+    const formattedOrders = orders.map((order) => ({
+      ...order.toObject(),
+      createdAt: formatDate(order.createdAt),
+    }));
+
+    res.json(formattedOrders);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

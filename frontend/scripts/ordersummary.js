@@ -1,25 +1,48 @@
 const API_URL = "http://localhost:5001/api";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const lastorder = await fatchLastOrder();
-  console.log(lastorder);
-  loadOrderPager(lastorder);
+  const orders = await fatchAllOrders();
+  const currentPath = window.location.pathname;
+
+  if (currentPath.endsWith("/thanksForOrder.html")) {
+    const lastorder = orders[0];
+    loadOrderPager(lastorder);
+  } else if (currentPath.endsWith("/myOrders.html")) {
+    loadOrdersList(orders);
+  } else if (currentPath.includes("orderInformation.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get("orderId");
+    const order = await fatchOrder(orderId);
+    loadOrderPager(order);
+  }
 });
 
-async function fatchLastOrder() {
+async function fatchAllOrders() {
   const userData = JSON.parse(localStorage.getItem("user"));
   try {
     const response = await fetch(`${API_URL}/orders/user/${userData._id}`);
     const orders = await response.json();
-    return orders[0];
+    return orders;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+  }
+}
+
+async function fatchOrder(orderId) {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  try {
+    const response = await fetch(
+      `${API_URL}/orders/user/${userData._id}?orderId=${orderId}`
+    );
+    const order = await response.json();
+    console.log(order);
+    return order[0];
   } catch (error) {
     console.error("Error fetching order:", error);
   }
 }
 
 async function loadOrderPager(order) {
-  const page = document.getElementById("order-page");
-
   document.getElementById("order-id").textContent = order._id;
   document.getElementById("order-created-at").textContent = order.createdAt;
 
@@ -28,7 +51,8 @@ async function loadOrderPager(order) {
   let totalPrice = 0;
   order.items.forEach((item) => {
     const shoe = item.shoe;
-    totalPrice += shoe.price;
+    const shoeFinalPrice = shoe.salePrice ? shoe.salePrice : shoe.price;
+    totalPrice += shoeFinalPrice;
     const genderImgDirectory =
       shoe.gender == "men" ? "men-items" : "women-items";
     const itemDiv = document.createElement("div");
@@ -65,7 +89,9 @@ async function loadOrderPager(order) {
 
   <!-- Price Section -->
   <div class="mt-4 mt-lg-0">
-    <span class="h5">$${shoe.price}</span>
+    <span class="h5" style="color:${
+      shoeFinalPrice < shoe.price ? "red" : "black"
+    };">$${shoe.salePrice ? shoe.salePrice : shoe.price}</span>
   </div>
 </div>
 
@@ -74,6 +100,34 @@ async function loadOrderPager(order) {
 
     itemsList.append(itemDiv);
   });
-
   document.getElementById("order-total-price").textContent = `$${totalPrice}`;
+}
+
+async function loadOrdersList(orders) {
+  const ordersTableBody = document.getElementById("orders-table-body");
+
+  ordersTableBody.innerHTML = "";
+
+  orders.forEach((order) => {
+    const orderTr = document.createElement("tr");
+    orderTr.innerHTML = `
+     <td class="text-center" id="order-id">${order._id}</td>
+                    <td class="text-center" id="status">${order.status}</td>
+                    <td class="text-center" id="date">${order.createdAt}</td>
+                    <td class="text-center" id="num-items">${order.items.length}</td>
+                    <td class="text-right" id="total-sum">$${order.total}</td>
+                    <td class="text-center">
+                      <a
+                        class="btn btn-outline-secondary"
+                        title=""
+                        data-toggle="tooltip"
+                        href="orderInformation.html?orderId=${order._id}"
+                        data-original-title="View"
+                        ><i class="fa fa-eye"></i
+                      ></a>
+                    </td>
+    `;
+
+    ordersTableBody.append(orderTr);
+  });
 }
