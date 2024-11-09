@@ -124,7 +124,9 @@ document.addEventListener("DOMContentLoaded", function () {
       shoeDiv.classList.add("category");
 
       shoeDiv.innerHTML = `
-      <img src="./images/${genderImgDirectory}/${shoe.name}.png" alt="${shoe.gender}" class="category-image">
+      <div class = "category-image">
+      <img src="./images/${genderImgDirectory}/${shoe.name}.png" alt="${shoe.gender}" style="width: 200px;height: 110px;">
+      </div>
       <a>${shoe.price}$</a>
       <a class="nav-link">Shop Now</a>
         `;
