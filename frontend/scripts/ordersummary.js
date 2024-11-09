@@ -34,46 +34,42 @@ async function loadOrderPager(order) {
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("row", "mb-8");
     itemDiv.innerHTML = `
-                    <div class="col-12 col-lg-2 mb-8 mb-lg-0">
-                  <div
-                    class="d-flex align-items-center justify-content-center h-72 bg-light-light"
-                    style="height: 288px"
-                  >
-                    <img
-                      class="img-fluid"
-                      style="object-fit: cover"
-                      src="./images/${genderImgDirectory}/${shoe.name}.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="col-12 col-lg-10">
-                  <div class="d-flex mb-8 mb-md-16">
-                    <div class="me-auto">
-                      <h3 class="lead fw-bold">${shoe.name}</h3>
-                    </div>
-                    <span class="h5">$${shoe.price}</span>
-                  </div>
-                  <div class="row g-4">
-                    <div class="col-12 col-lg-auto me-md-10 mb-6 mb-lg-0 me-5">
-                      <p class="mb-6 fw-bold">Delivery Address</p>
-                      <p class="mb-0 text-secondary">Morgan S Hembree</p>
-                      <p class="mb-0 text-secondary">4767 Woodland Terrace</p>
-                      <p class="mb-0 text-secondary">California, CA 95821</p>
-                    </div>
-                    <div class="col-12 col-lg-auto me-md-10 mb-6 mb-lg-0 me-5">
-                      <p class="mb-6 fw-bold">Shipping Informations</p>
-                      <p class="mb-0 text-secondary">morgan@shuffleux.com</p>
-                      <p class="mb-0 text-secondary">916-971-2145</p>
-                    </div>
-                    <div class="col-12 col-lg-auto me-5">
-                      <p class="mb-6 fw-bold">Payment Informations</p>
-                      <p class="mb-0 text-secondary">Mastercard</p>
-                      <p class="mb-0 text-secondary">Ending with 4242</p>
-                      <p class="mb-0 text-secondary">Expires 02 / 28</p>
-                    </div>
-                  </div>
-                </div>
+                 <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between text-center border-bottom">
+  <!-- Image Section -->
+  <div class="d-flex align-items-center justify-content-center bg-light-light" style="height: 288px; width: 100px;">
+    <img
+      class="img-fluid"
+      style="object-fit: cover; max-height: 100%;"
+      src="./images/${genderImgDirectory}/${shoe.name}.png"
+      alt=""
+    />
+  </div>
+
+  <!-- Shoe Name Section -->
+  <div class="flex-grow-1 mb-6 mb-lg-0">
+    <p class="mb-6 fw-bold">Shoe Name</p>
+    <p class="mb-0 text-secondary">${shoe.name}</p>
+  </div>
+
+  <!-- Shipping Information Section -->
+  <div class="flex-grow-1 mb-6 mb-lg-0">
+     <p class="mb-6 fw-bold">Shippment Status</p>
+    <p class="mb-0 text-secondary">${shoe.status}</p>
+  </div>
+
+  <!-- Payment Information Section -->
+  <div class="flex-grow-1 mb-6 mb-lg-0">
+    <p class="mb-6 fw-bold">Payment Info</p>
+    <p class="mb-0 text-secondary">Visa</p>
+  </div>
+
+  <!-- Price Section -->
+  <div class="mt-4 mt-lg-0">
+    <span class="h5">$${shoe.price}</span>
+  </div>
+</div>
+
+
     `;
 
     itemsList.append(itemDiv);
