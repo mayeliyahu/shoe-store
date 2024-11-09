@@ -41,13 +41,11 @@
           clip-rule="evenodd"
         />
       </symbol>
-      <symbol id="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <symbol id="order-history" viewBox="0 0 24 24">
         <path
-          fill="currentColor"
-          fill-rule="evenodd"
-          d="M5.624 4.424C3.965 5.182 2.75 6.986 2.75 9.137c0 2.197.9 3.891 2.188 5.343c1.063 1.196 2.349 2.188 3.603 3.154c.298.23.594.459.885.688c.526.415.995.778 1.448 1.043c.452.264.816.385 1.126.385c.31 0 .674-.12 1.126-.385c.453-.265.922-.628 1.448-1.043c.29-.23.587-.458.885-.687c1.254-.968 2.54-1.959 3.603-3.155c1.289-1.452 2.188-3.146 2.188-5.343c0-2.15-1.215-3.955-2.874-4.713c-1.612-.737-3.778-.542-5.836 1.597a.75.75 0 0 1-1.08 0C9.402 3.882 7.236 3.687 5.624 4.424M12 4.46C9.688 2.39 7.099 2.1 5 3.059C2.786 4.074 1.25 6.426 1.25 9.138c0 2.665 1.11 4.699 2.567 6.339c1.166 1.313 2.593 2.412 3.854 3.382c.286.22.563.434.826.642c.513.404 1.063.834 1.62 1.16c.557.325 1.193.59 1.883.59s1.326-.265 1.883-.59c.558-.326 1.107-.756 1.62-1.16a78.6 78.6 0 0 1 .826-.642c1.26-.97 2.688-2.07 3.854-3.382c1.457-1.64 2.567-3.674 2.567-6.339c0-2.712-1.535-5.064-3.75-6.077c-2.099-.96-4.688-.67-7 1.399"
-          clip-rule="evenodd"
-        />
+         fill="currentColor" d="M12 2a10 10 0 1 0 10 10h-1.5a8.5 8.5 0 1 1-2.5-6l-2.2 2.2a1 1 0 0 0 1.4 1.4l4-4a1 1 0 0 0 0-1.4l-4-4a1 1 0 1 0-1.4 1.4l2.1 2.1A10 10 0 0 0 12 2z" />
+        <path
+         fill="currentColor" d="M12 6a1 1 0 0 1 1 1v4h3a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/>
       </symbol>
       <symbol id="cart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path
@@ -183,46 +181,12 @@
                     </div>
                   </div>
                 </li>
-
-                <li class="wishlist-dropdown dropdown">
-                  <a
-                    href="#"
-                    class="dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    role="button"
-                    aria-expanded="false"
-                  >
-                    <svg class="heart">
-                      <use xlink:href="#heart"></use>
+                <li>
+                  <a href="myOrders.html">
+                    <svg class="order-history">
+                      <use xlink:href="#order-history"></use>
                     </svg>
                   </a>
-                  <div
-                    class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3"
-                    id="wishlist-dropdown"
-                  >
-                    <h4
-                      class="d-flex justify-content-between align-items-center mb-3"
-                    >
-                      <span class="text-primary">Your wishlist</span>
-                      <span class="badge rounded-pill" id="wishlist-total-items"
-                        >0</span
-                      >
-                    </h4>
-
-                    <ul class="list-group mb-3" id="wishlist-items">
-                      <li
-                        class="list-group-item text-center"
-                        id="empty-wishlist-message"
-                      >
-                        Your wishlist is empty
-                      </li>
-                    </ul>
-                    <div class="d-flex flex-wrap justify-content-center">
-                      <a href="#" class="w-100 btn btn-dark mb-1" type="submit"
-                        >Add to cart</a
-                      >
-                    </div>
-                  </div>
                 </li>
               </ul>
             </div>
