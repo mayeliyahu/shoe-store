@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function handleAddShoe(event) {
     event.preventDefault();
     const name = document.getElementById("shoeName").value;
-    const brand = document.getElementById("brand").value;
+    const brand = document.getElementById("brand").value.toLowerCase();
     const availableSizes = document
       .getElementById("availableSizes")
       .value.split(",")
@@ -199,12 +199,12 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(Number);
     const price = document.getElementById("price").value;
     const salePrice = document.getElementById("salePrice").value;
-    const gender = document.getElementById("gender").value;
+    const gender = document.getElementById("gender").value.toLowerCase();
     const imageFile = document.getElementById("shoeImage").files[0];
     const fullFilePath = document.getElementById("fullFilePath").value || null;
-    const imageFolder = salePrice
-      ? "images/sale-items/"
-      : `images/${gender.toLowerCase()}-items/`;
+    const genderImgDirectory = gender == "men" ? "men-items" : "women-items";
+    const imageFolder = `./images/${genderImgDirectory}/`;
+
     const payload = {
       name,
       brand,

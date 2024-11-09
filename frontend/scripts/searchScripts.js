@@ -1,4 +1,4 @@
-const API_URI = "http://localhost:5001/api";
+const API_BACKEND_URL = "http://localhost:5001/api";
 
 const searchIcon = document.getElementById("search-icon");
 const searchBox = document.getElementById("search-box");
@@ -20,7 +20,9 @@ searchInput.addEventListener("input", async function () {
   const searchText = this.value;
 
   try {
-    const response = await fetch(`${API_URI}/shoes/search?name=${searchText}`);
+    const response = await fetch(
+      `${API_BACKEND_URL}/shoes/search?name=${searchText}`
+    );
     const shoes = await response.json();
     displayResults(shoes);
   } catch (error) {
@@ -39,7 +41,7 @@ function displayResults(shoes) {
     resultItem.textContent = shoe.name;
 
     resultItem.addEventListener("click", () => {
-      console.log(`Selected item: ${shoe.name}`);
+      openShoePopup(shoe);
     });
 
     resultsContainer.appendChild(resultItem);
