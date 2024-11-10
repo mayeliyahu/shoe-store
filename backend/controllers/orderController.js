@@ -15,7 +15,6 @@ exports.getOrders = async (req, res) => {
     let orders = [];
     if (orderQuery.orderId) {
       orders = await Order.find({
-        user: req.params.userId,
         _id: orderQuery.orderId,
       })
         .sort({ createdAt: -1 })
@@ -93,7 +92,8 @@ exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({})
       .sort({ createdAt: -1 })
-      .populate("items.shoe");
+      .populate("items.shoe")
+      .populate("user");
 
     if (orders.length === 0) return res.json([]);
     const formattedOrders = orders.map((order) => ({
@@ -105,4 +105,3 @@ exports.getAllOrders = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-

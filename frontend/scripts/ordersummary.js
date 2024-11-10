@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   } else if (currentPath.includes("orderInformation.html")) {
     const urlParams = new URLSearchParams(window.location.search);
     const orderId = urlParams.get("orderId");
+    console.log(orderId);
     const order = await fatchOrder(orderId);
     loadOrderPager(order);
   }

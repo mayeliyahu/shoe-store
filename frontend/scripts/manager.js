@@ -116,35 +116,63 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>`;
     loadCharts();
   }
-  function loadOrders() {
+  async function loadOrders() {
+    const response = await fetch("http://localhost:5001/api/orders/getall");
+    const orders = await response.json();
+    console.log(orders);
+
     content.innerHTML = `
-            <div class="page">
-      <div class="order-history">
-        <div>
-          <div id="content" class="col-sm-12">
-            <h4 class="text-uppercase p-3">Order History</h4>
-            <div class="table-responsive order-table">
-              <table class="table table-borderless table-hover">
-                <thead class="border-bottom">
-                  
-                    <td class="text-center">Order ID</td>
-                    <td class="text-center">Status</td>
-                    <td class="text-center">Date Added</td>
-                    <td class="text-center">Number Of Items</td>
-                    <td class="text-right">Total</td>
-                    <td></td>
-                  </tr>
-                </thead>
-                <tbody id="orders-table-body">
-                 
-                </tbody>
-              </table>
+        <div class="page">
+            <div class="order-history">
+                <div>
+                    <div id="content" class="col-sm-12">
+                        <h4 class="text-uppercase p-3">Order History</h4>
+                        <div class="table-responsive order-table">
+                            <table class="table table-borderless table-hover">
+                                <thead class="border-bottom">
+                                    <tr>
+                                        <td class="text-center">Order ID</td>
+                                        <td class="text-center">Status</td>
+                                        <td class="text-center">Date Added</td>
+                                        <td class="text-center">Number Of Items</td>
+                                        <td class="text-right">Total</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+                                    ${orders
+                                      .map(
+                                        (order) => `
+                                        <tr>
+                                            <td class="text-center">${order._id}</td>
+                                            <td class="text-center">${order.user.name}</td>
+                                            <td class="text-center">${order.createdAt}</td>
+                                            <td class="text-center">${order.items.length}</td>
+                                            <td class="text-right">$${order.total}</td>
+                                            <td class="text-center">
+                                              <a
+                                               class="btn btn-outline-secondary"
+                                                title=""
+                                                data-toggle="tooltip"
+                                                href="orderInformation.html?orderId=${order._id}"
+                                                data-original-title="View"
+                                                ><i class="fa fa-eye"></i
+                                                ></a>
+                                            </td>
+                                        </tr>
+                                    `
+                                      )
+                                      .join("")}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-        `;}
+    `;
+  }
+
   function loadAddShoe() {
     content.innerHTML = `
         <h3>Add New Shoe</h3>
@@ -489,5 +517,4 @@ document.addEventListener("DOMContentLoaded", () => {
       tweetDataDiv.innerHTML = "Error fetching tweets.";
     }
   }
-
 });
