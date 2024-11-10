@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <thead class="border-bottom">
                                     <tr>
                                         <td class="text-center">Order ID</td>
-                                        <td class="text-center">Status</td>
+                                        <td class="text-center">user</td>
                                         <td class="text-center">Date Added</td>
                                         <td class="text-center">Number Of Items</td>
                                         <td class="text-right">Total</td>
