@@ -42,6 +42,7 @@ async function editUser(userId) {
 document.addEventListener("DOMContentLoaded", () => {
   const userManagementTab = document.getElementById("user-management-tab");
   const reportsTab = document.getElementById("reports-tab");
+  const ordersTab = document.getElementById("orders-tab");
   const addShoeTab = document.getElementById("add-shoe-tab");
   const content = document.getElementById("content");
   const intro = document.getElementById("management-intro");
@@ -57,6 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
   reportsTab.addEventListener("click", function () {
     setActiveTab(this);
     loadReports();
+  });
+
+  ordersTab.addEventListener("click", function () {
+    setActiveTab(this);
+    loadOrders();
   });
 
   addShoeTab.addEventListener("click", function () {
@@ -110,7 +116,35 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>`;
     loadCharts();
   }
-
+  function loadOrders() {
+    content.innerHTML = `
+            <div class="page">
+      <div class="order-history">
+        <div>
+          <div id="content" class="col-sm-12">
+            <h4 class="text-uppercase p-3">Order History</h4>
+            <div class="table-responsive order-table">
+              <table class="table table-borderless table-hover">
+                <thead class="border-bottom">
+                  
+                    <td class="text-center">Order ID</td>
+                    <td class="text-center">Status</td>
+                    <td class="text-center">Date Added</td>
+                    <td class="text-center">Number Of Items</td>
+                    <td class="text-right">Total</td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        `;}
   function loadAddShoe() {
     content.innerHTML = `
         <h3>Add New Shoe</h3>
@@ -455,4 +489,5 @@ document.addEventListener("DOMContentLoaded", () => {
       tweetDataDiv.innerHTML = "Error fetching tweets.";
     }
   }
+
 });
