@@ -449,9 +449,19 @@
         <span class="close-popup">&times;</span>
         <img id="popup-image" src="" alt="Shoe Image" />
         <h6 id="popup-title"></h6>
-        <div class="popup-sizes">
-          <label for="sizes">Size:</label>
+
+        <div id="user-size-selection" class="popup-sizes">
+          <label for="sizes" id="size-text-title">Size:</label>
           <select id="sizes"></select>
+        </div>
+
+        <div
+          id="admin-size-selection"
+          class="popup-sizes"
+          style="display: none"
+        >
+          <label>Select Sizes to Update:</label>
+          <div id="admin-sizes-options"></div>
         </div>
 
         <div class="popup-price">

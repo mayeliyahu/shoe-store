@@ -200,11 +200,48 @@ function openShoePopup(item) {
   const currentPath = window.location.pathname;
   const isSalePage = currentPath.endsWith("sale.html");
   const userData = JSON.parse(localStorage.getItem("user"));
-  console.log(item);
   const genderImgDirectory = item.gender == "men" ? "men-items" : "women-items";
 
   const sizesSelect = document.getElementById("sizes");
-  sizesSelect.innerHTML = "";
+  const sizeChooseTitle = document.getElementById("size-text-title");
+  sizeChooseTitle.textContent = "";
+  console.log("sadsa");
+  const adminSizeSelection = document.getElementById("admin-size-selection");
+
+  if (userData && userData.isAdmin) {
+    sizesSelect.style.display = "none";
+    adminSizeSelection.style.display = "block";
+    const adminSizesOptions = document.getElementById("admin-sizes-options");
+    adminSizesOptions.innerHTML = ""; // Clear any previous options
+
+    item.availableSizes.forEach((size) => {
+      const checkbox = document.createElement("input");
+      if (!item.inStockSizes.includes(size)) {
+        checkbox.type = "checkbox";
+        checkbox.value = size;
+        checkbox.id = `size-${size}`;
+
+        const label = document.createElement("label");
+        label.htmlFor = `size-${size}`;
+        label.textContent = size;
+
+        adminSizesOptions.appendChild(checkbox);
+        adminSizesOptions.appendChild(label);
+        adminSizesOptions.appendChild(document.createElement("br"));
+      }
+    });
+  } else {
+    adminSizeSelection.style.display = "none";
+    sizeChooseTitle.textContent = "Choose Size:";
+    sizesSelect.innerHTML = "";
+    item.availableSizes.forEach((size) => {
+      const option = document.createElement("option");
+      option.value = size;
+      option.textContent = size;
+      option.disabled = !item.inStockSizes.includes(size);
+      sizesSelect.appendChild(option);
+    });
+  }
 
   document.getElementById(
     "popup-image"
@@ -217,30 +254,44 @@ function openShoePopup(item) {
   } else {
     document.getElementById("popup-price").innerText = item.price + "$";
   }
-  item.availableSizes.forEach((size) => {
-    const option = document.createElement("option");
-    option.value = size;
-    option.textContent = size;
-    option.disabled = !item.inStockSizes.includes(size);
-    sizesSelect.appendChild(option);
-  });
 
   if (userData && userData._id) {
     document.getElementById("login-reminder").style.display = "none";
   } else {
+    adminSizeSelection.style.display = "none";
     document.getElementById("shoe-popup-user-actions").style.display = "none";
   }
 
   document.getElementById("popup-modal").style.display = "flex";
 
-  document
-    .getElementById("add-to-cart-btn")
-    .addEventListener("click", function () {
+  const actionButton = document.getElementById("add-to-cart-btn");
+  if (userData && userData.isAdmin) {
+    actionButton.textContent = "Update Shoe";
+    actionButton.addEventListener("click", async function () {
+      if (userData && userData.isAdmin) {
+        const checkboxes = document.querySelectorAll(
+          "#admin-sizes-options input[type='checkbox']:checked"
+        );
+        const selectedSizes = Array.from(checkboxes).map((checkbox) =>
+          parseInt(checkbox.value)
+        );
+        if (selectedSizes.length !== 0) {
+          updateShoeSizes(item._id, selectedSizes);
+          closePopup();
+        }
+      } else {
+        alert("Please login :)");
+      }
+    });
+  } else if (userData && !userData.isAdmin) {
+    actionButton.textContent = "Add To Cart";
+    actionButton.addEventListener("click", function () {
       if (userData && userData._id) addToCart(item, sizesSelect.value);
       else {
         alert("Please login :)");
       }
     });
+  }
 }
 function closePopup() {
   document.getElementById("popup-modal").style.display = "none";
@@ -254,6 +305,19 @@ window.addEventListener("click", function (event) {
     closePopup();
   }
 });
+
+async function updateShoeSizes(shoeId, newSizes) {
+  payload = {
+    newSizes: newSizes,
+  };
+  const response = await fetch(`${apiURI}/shoes/add-sizes/${shoeId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+}
 
 async function addToCart(shoe, size) {
   const userData = JSON.parse(localStorage.getItem("user"));

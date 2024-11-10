@@ -7,6 +7,7 @@ const {
   deleteShoe,
   getNewItemsShoes,
   getSearchedShoesByName,
+  addSizesToInStock,
 } = require("../controllers/shoeController");
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.post("/", createShoe);
 router.get("/:id", getShoeById);
 router.put("/:id", updateShoe);
 router.delete("/:id", deleteShoe);
+router.put("/add-sizes/:id", addSizesToInStock);
 
 module.exports = router;

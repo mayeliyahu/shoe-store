@@ -172,3 +172,19 @@ exports.getSearchedShoesByName = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.addSizesToInStock = async (req, res) => {
+  const { id } = req.params;
+  const { newSizes } = req.body;
+  try {
+    // Add new sizes to the inStockSizes array if they don't already exist
+    await Shoe.updateOne(
+      { _id: id },
+      { $addToSet: { inStockSizes: { $each: newSizes } } }
+    );
+
+    console.log("New sizes added to inStockSizes.");
+  } catch (error) {
+    console.error("Error adding sizes to inStockSizes:", error);
+  }
+};
