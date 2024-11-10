@@ -88,3 +88,21 @@ exports.getOrderReports = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .sort({ createdAt: -1 })
+      .populate("items.shoe");
+
+    if (orders.length === 0) return res.json([]);
+    const formattedOrders = orders.map((order) => ({
+      ...order.toObject(),
+      createdAt: formatDate(order.createdAt),
+    }));
+    res.json(formattedOrders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
