@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                                 data-toggle="tooltip"
                                                 href="orderInformation.html?orderId=${order._id}"
                                                 data-original-title="View"
-                                                ><i class="fa fa-eye"></i
+                                                ><i class="fa fa-eye">view</i
                                                 ></a>
                                             </td>
                                         </tr>
